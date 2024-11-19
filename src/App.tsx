@@ -1,7 +1,7 @@
 import {Route, Routes} from 'react-router-dom';
 import ClientPage from './containers/ClientPanel/ClientPage';
 import AdminDishes from './containers/AdminPanel/AdminDishes';
-import DishForm from './components/DishForm/DishForm';
+import DishForm from './containers/DishForm/DishForm';
 import CheckOut from './containers/ClientPanel/CheckOut';
 import AppBar from './components/AppBar/AppBar';
 import AdminOrders from './containers/AdminPanel/AdminOrders';
@@ -13,7 +13,7 @@ const App = () => {
       <header>
         <AppBar/>
       </header>
-      <main>
+      <main className="container">
         <Routes>
           <Route path="/" element={<ClientPage/>}/>
           <Route path="/admin/dishes" element={<AdminDishes/>}/>

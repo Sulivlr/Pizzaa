@@ -1,7 +1,16 @@
 import React, {ChangeEvent, useState} from 'react';
 import {DishMutation} from '../../types';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {selectDishIsCreating} from '../../store/dishesSlice';
+import {createDish} from '../../store/dishesThunks';
+import {toast} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
+import ButtonSpinner from '../../components/Spinners/ButtonSpinner';
 
 const DishForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isCreating = useAppSelector(selectDishIsCreating);
 
   const [dishMutation, setDishMutation] = useState<DishMutation>({
     name: '',
@@ -14,8 +23,15 @@ const DishForm = () => {
     setDishMutation((prevState) => ({...prevState, [name]: value}));
   };
 
-  const onSubmit = (event: React.FormEvent) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    try {
+      await dispatch(createDish({...dishMutation})).unwrap();
+      navigate('/');
+      toast.success('Dish added successfully.');
+    } catch {
+      toast.error('Could not create dish.');
+    }
   };
 
   return (
@@ -58,7 +74,12 @@ const DishForm = () => {
         />
       </div>
 
-      <button type="submit" className="btn btn-primary mt-3">
+      <button
+        type="submit"
+        className="btn btn-primary mt-3"
+        disabled={isCreating}
+      >
+        {isCreating && <ButtonSpinner />}
         Create
       </button>
     </form>
