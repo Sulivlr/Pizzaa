@@ -1,17 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {createDish, fetchDishes} from './dishesThunks';
+import {createDish, deleteDish, fetchDishes} from './dishesThunks';
 import {Dish} from '../types';
 
 export interface DishesState {
   items: Dish[];
   isCreating: boolean;
   isFetching: boolean;
+  isRemoving: string | null;
 }
 
 export const initialState: DishesState = {
   items: [],
   isCreating: false,
   isFetching: false,
+  isRemoving: null,
 };
 
 export const dishesSlice = createSlice({
@@ -35,11 +37,20 @@ export const dishesSlice = createSlice({
     }).addCase(fetchDishes.rejected, (state) => {
       state.isFetching = false;
     });
+
+    builder.addCase(deleteDish.pending, (state, {meta: {arg: id}}) => {
+      state.isRemoving = id;
+    }).addCase(deleteDish.fulfilled, (state) => {
+      state.isRemoving = null;
+    }).addCase(deleteDish.rejected, (state) => {
+      state.isRemoving = null;
+    })
   },
   selectors: {
     selectDishIsCreating: (state) => state.isCreating,
     selectDishIsFetching: (state) => state.isFetching,
     selectDishes: (state) => state.items,
+    selectDishIsRemoving: (state) => state.isRemoving,
   },
 });
 
@@ -49,4 +60,5 @@ export const {
   selectDishIsCreating,
   selectDishIsFetching,
   selectDishes,
+  selectDishIsRemoving,
 } = dishesSlice.selectors;

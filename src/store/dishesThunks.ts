@@ -20,8 +20,14 @@ export const fetchDishes = createAsyncThunk<Dish[]>(
       return [];
     }
 
-    return Object.keys(dishes).map((dishId) => ({
-      ...dishes[dishId],
-      dishId
+    return Object.keys(dishes).map((id) => ({
+      ...dishes[id],
+      id
     }));
+  });
+
+export const deleteDish = createAsyncThunk<void, string>(
+  'dishes/remove',
+  async (id) => {
+    await axiosApi.delete(`/dishes/${id}.json`);
   });
