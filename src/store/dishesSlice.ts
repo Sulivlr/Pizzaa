@@ -44,7 +44,7 @@ export const dishesSlice = createSlice({
       state.isRemoving = null;
     }).addCase(deleteDish.rejected, (state) => {
       state.isRemoving = null;
-    })
+    });
   },
   selectors: {
     selectDishIsCreating: (state) => state.isCreating,

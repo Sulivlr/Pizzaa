@@ -1,6 +1,6 @@
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectDishes, selectDishIsFetching, selectDishIsRemoving} from '../../store/dishesSlice';
+import {selectDishes, selectDishIsFetching, selectDishIsRemoving,} from '../../store/dishesSlice';
 import {useEffect} from 'react';
 import {deleteDish, fetchDishes} from '../../store/dishesThunks';
 import Spinner from '../../components/Spinners/Spinner';
@@ -13,6 +13,7 @@ const AdminDishes = () => {
   const isFetching = useAppSelector(selectDishIsFetching);
   const isDeleting = useAppSelector(selectDishIsRemoving);
   const navigate = useNavigate();
+
   const formClick = () => {
     navigate('/new-dish');
   };
@@ -21,16 +22,18 @@ const AdminDishes = () => {
     dispatch(fetchDishes());
   }, [dispatch]);
 
+
   const onRemove = async (id: string) => {
     try {
-      await dispatch(deleteDish(id)).unwrap();
-      await dispatch(fetchDishes());
-      toast.success('Dish Successfully deleted');
+      if (window.confirm(`Are you sure you want to delete Dish?`)) {
+        await dispatch(deleteDish(id)).unwrap();
+        await dispatch(fetchDishes());
+        toast.success('Dish Successfully deleted');
+      }
     } catch {
-
       toast.error('Could not create dish.');
     }
-  }
+  };
 
   return isFetching ? (<Spinner/>) : (
     <div className="container mt-4 mb-4">
@@ -57,7 +60,15 @@ const AdminDishes = () => {
               <p style={{fontSize: '40px'}} className="mt-5 me-5">{dish.price} KGS</p>
             </div>
             <div>
-              <button style={{fontSize: '25px'}} className="btn btn-primary mt-5 me-5">Edit</button>
+              <Link to={`/dishes/${dish.id}/edit`}>
+              <button
+                style={{fontSize: '25px'}}
+                className="btn btn-primary mt-5 me-5"
+              >
+                Edit
+              </button>
+
+              </Link>
             </div>
             <div>
               <button
