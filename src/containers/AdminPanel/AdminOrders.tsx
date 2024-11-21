@@ -1,4 +1,8 @@
+
 const AdminOrders = () => {
+
+
+
   return (
     <div className="container mt-2 mb-4">
       <div className="mt-4">
@@ -9,52 +13,17 @@ const AdminOrders = () => {
           <div className="card d-flex flex-row justify-content-between mt-3">
             <div style={{fontSize: '40px'}} className="mt-3 ms-5">
               <p>Pepperoni</p>
-              <p>Cola</p>
               <p>Delivery</p>
             </div>
+            <div className="mt-3" style={{fontSize: '40px'}}>x1</div>
             <div style={{fontSize: '40px'}} className="mt-3">
               <p>450 KGS</p>
-              <p>80 KGS</p>
               <p>150 KGS</p>
             </div>
             <div style={{fontSize: '40px'}} className="mt-3 me-5">
               <p>Orders Total: </p>
               <p>680 KGS</p>
-              <button style={{fontSize: '20px'}} className="btn btn-success me-5">Complete order</button>
-            </div>
-          </div>
-          <div className="card d-flex flex-row justify-content-between mt-3">
-            <div style={{fontSize: '40px'}} className="mt-3 ms-5">
-              <p>Pepperoni</p>
-              <p>Cola</p>
-              <p>Delivery</p>
-            </div>
-            <div style={{fontSize: '40px'}} className="mt-3">
-              <p>450 KGS</p>
-              <p>80 KGS</p>
-              <p>150 KGS</p>
-            </div>
-            <div style={{fontSize: '40px'}} className="mt-3 me-5">
-              <p>Orders Total: </p>
-              <p>680 KGS</p>
-              <button style={{fontSize: '20px'}} className="btn btn-success me-5">Complete order</button>
-            </div>
-          </div>
-          <div className="card d-flex flex-row justify-content-between mt-3">
-            <div style={{fontSize: '40px'}} className="mt-3 ms-5">
-              <p>Pepperoni</p>
-              <p>Cola</p>
-              <p>Delivery</p>
-            </div>
-            <div style={{fontSize: '40px'}} className="mt-3">
-              <p>450 KGS</p>
-              <p>80 KGS</p>
-              <p>150 KGS</p>
-            </div>
-            <div style={{fontSize: '40px'}} className="mt-3 me-5">
-              <p>Orders Total: </p>
-              <p>680 KGS</p>
-              <button style={{fontSize: '20px'}} className="btn btn-success me-5">Complete order</button>
+              <button style={{fontSize: '20px'}} className="btn btn-success me-5 mb-3">Complete order</button>
             </div>
           </div>
         </div>

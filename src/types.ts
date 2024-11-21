@@ -13,10 +13,6 @@ export interface ApiDishes {
   [id: string] : ApiDish;
 }
 
-export interface UpdateDish {
-  id: string;
-  apiDish: ApiDish;
-}
 
 export interface DishMutation {
   name: string;
@@ -24,5 +20,32 @@ export interface DishMutation {
   image: string;
 }
 
+export interface CartDish {
+  dish: Dish;
+  amount: number;
+}
 
 
+export interface ApiOrderDishes {
+  [dishId: string] : number
+}
+
+export interface ApiOrder {
+  dishes: ApiOrderDishes;
+}
+
+export interface ApiOrders {
+  [id: string]: ApiOrder;
+}
+
+export interface OrderDishInfo {
+  amount: number;
+  title: string;
+  price: number;
+}
+
+export interface Order {
+  id: string;
+  totalPrice: number;
+  dishes: OrderDishInfo[];
+}
