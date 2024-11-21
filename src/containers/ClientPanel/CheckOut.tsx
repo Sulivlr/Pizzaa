@@ -2,6 +2,9 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {clearCart, decrementDish, selectCartDishes, selectCartDishIsLoading} from '../../store/cartSlice';
 import {sendCartDish} from '../../store/cartsThunks';
 import {useNavigate} from 'react-router-dom';
+import ButtonSpinner from '../../components/Spinners/ButtonSpinner';
+import {toast} from 'react-toastify';
+import {ApiOrderDishes} from '../../types';
 
 
 const CheckOut = () => {
@@ -20,8 +23,19 @@ const CheckOut = () => {
   };
 
   const onSubmit = async () => {
-     await dispatch(sendCartDish(cartDishes));
+
+    const apiOrderDishes = cartDishes.reduce<ApiOrderDishes>((acc,cartDish) => {
+      acc[cartDish.dish.id] = cartDish.amount;
+      return acc;
+    }, {});
+
+
+    if (cartDishes.length === 0) {
+      toast.error('add some dishes to cart, if you want to order');
+    } else
+     await dispatch(sendCartDish(apiOrderDishes)).unwrap();
      dispatch(clearCart());
+      toast.success('You are successfully ordered');
      navigate('/');
   };
 
@@ -74,6 +88,7 @@ const CheckOut = () => {
           disabled={isLoading}
         >
           Order
+          {isLoading && <ButtonSpinner/>}
         </button>
       </div>
     </div>
