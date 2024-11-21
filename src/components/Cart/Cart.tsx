@@ -9,13 +9,10 @@ const Cart = () => {
     navigate('/checkout');
   };
 
-  const total = cartDishes.reduce((sum, cartDish) => {
-    return sum + cartDish.dish.price * cartDish.amount;
-  }, 0);
 
   return (
     <>
-      <h3 className="mt-2">Cart</h3>
+      <h2 className="mt-2">Cart</h2>
       <div className="card mb-2 mt-3 p-2">
         {cartDishes.map((cartDish) => (
           <div
@@ -28,10 +25,9 @@ const Cart = () => {
             <div style={{fontSize: '40px'}} className="text-center">x{cartDish.amount}</div>
           </div>
         ))}
-        <div className="d-flex justify-content-between mt-3">
-          <h3>Order Total : {total} KGS</h3>
+        <div className="d-flex justify-content-end mt-3">
           <button onClick={checkOutClick} style={{fontSize: '25px'}}
-                  className="btn btn-info btn-outline-success">CheckOut
+                  className="btn btn-warning btn-outline-success">CheckOut
           </button>
         </div>
       </div>

@@ -1,12 +1,16 @@
 import {CartDish, Dish} from '../types';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {sendCartDish} from './cartsThunks';
+import {createDish} from './dishesThunks';
 
 interface CartState {
   cartDishes: CartDish[]
+  isLoading: boolean;
 }
 
 const initialState: CartState = {
-  cartDishes: []
+  cartDishes: [],
+  isLoading: false,
 };
 
 const cartSlice = createSlice({
@@ -40,8 +44,18 @@ const cartSlice = createSlice({
       state.cartDishes = [];
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase(sendCartDish.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(createDish.fulfilled, (state) => {
+      state.isLoading = false;
+    }).addCase(createDish.rejected, (state) => {
+      state.isLoading = false;
+    });
+  },
   selectors: {
     selectCartDishes: (state) => state.cartDishes,
+    selectCartDishIsLoading: (state) => state.isLoading
   }
 });
 
@@ -52,5 +66,7 @@ export const {
   decrementDish,
 } = cartSlice.actions;
 export const
-  {selectCartDishes,
-} = cartSlice.selectors;
+  {
+    selectCartDishes,
+    selectCartDishIsLoading,
+  } = cartSlice.selectors;

@@ -30,7 +30,7 @@ const ClientPage = () => {
           <div
             key={dish.id} className="card d-flex flex-row justify-content-between mt-3"
             onClick={() => dispatch(addDish(dish))}
-            style={{maxHeight: '200px'}}>
+            style={{maxHeight: '200px', cursor: 'pointer'}}>
             <img style={{width: '350px'}}
                  src={dish.image}
                  alt="img"/>

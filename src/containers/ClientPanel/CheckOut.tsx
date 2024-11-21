@@ -1,16 +1,28 @@
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {decrementDish, selectCartDishes} from '../../store/cartSlice';
+import {clearCart, decrementDish, selectCartDishes, selectCartDishIsLoading} from '../../store/cartSlice';
+import {sendCartDish} from '../../store/cartsThunks';
+import {useNavigate} from 'react-router-dom';
+
 
 const CheckOut = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const cartDishes = useAppSelector(selectCartDishes);
+  const isLoading = useAppSelector(selectCartDishIsLoading);
+  const delivery = 150;
   const total = cartDishes.reduce((sum, cartDish) => {
-    return sum + cartDish.dish.price * cartDish.amount;
+    return sum + cartDish.dish.price * cartDish.amount + delivery;
   }, 0);
 
 
   const handleDecrement = (id: string) => {
     dispatch(decrementDish(id));
+  };
+
+  const onSubmit = async () => {
+     await dispatch(sendCartDish(cartDishes));
+     dispatch(clearCart());
+     navigate('/');
   };
 
 
@@ -21,13 +33,21 @@ const CheckOut = () => {
       </div>
       {cartDishes.map((dish) => (
         <div key={dish.dish.id} className="d-flex justify-content-between mt-5">
-          <p style={{fontSize: '40px'}}>{dish.dish.name}</p>
-          <p style={{fontSize: '40px'}}>x{dish.amount}</p>
-          <p style={{fontSize: '40px'}}>{dish.dish.price} KGS</p>
+          <div className="col-1">
+            <p style={{fontSize: '40px'}}>{dish.dish.name}</p>
+          </div>
+          <br/>
+          <div className="col-3">
+            <p style={{fontSize: '40px'}}>x{dish.amount}</p>
+          </div>
+          <div className="col-5">
+            <p style={{fontSize: '40px'}}>{dish.dish.price} KGS</p>
+          </div>
           <div>
             <button
               onClick={() => handleDecrement(dish.dish.id)}
               className="btn btn-danger"
+              style={{fontSize: 20}}
             >
               Delete
             </button>
@@ -38,7 +58,7 @@ const CheckOut = () => {
       <br/>
       <div className="d-flex justify-content-between mt-5" style={{fontSize: '40px'}}>
         <p>Delivery</p>
-        <p>150 KGS</p>
+        <p>{delivery} KGS</p>
       </div>
       <div className="d-flex justify-content-between" style={{fontSize: '40px'}}>
         <p>Total</p>
@@ -46,7 +66,15 @@ const CheckOut = () => {
       </div>
       <div className="d-flex flex-row mt-5">
         <button className="btn btn-primary me-5" style={{fontSize: '40px'}}>Cancel</button>
-        <button className="btn btn-success" style={{fontSize: '40px'}}>Order</button>
+        <button
+          className="btn btn-success"
+          style={{fontSize: '40px'}}
+          type="submit"
+          onClick={onSubmit}
+          disabled={isLoading}
+        >
+          Order
+        </button>
       </div>
     </div>
 
